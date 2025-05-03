@@ -1,0 +1,33 @@
+# goreleaser.yml
+project_name: shela
+builds:
+  - id: shela
+    main: ./main.go
+    binary: shela
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.buildVersion={{.Version}} -X main.buildTime={{.Date}}
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+
+release:
+  github:
+    owner: wprimadi@gmail.com
+    name: shela
+    draft: false
+    prerelease: false
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  use: git
